@@ -6,6 +6,16 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4733286-19"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-4733286-19');
+</script>
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -16,20 +26,40 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("MIKRON Account Explorer", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("MIKRON Account Explorer", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })   
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                   <li><a target="_blank" href="https://github.com/Pethical/Mikron-explorer">Forráskód GitHub-on</a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
+	<div class="alert alert-danger text-center" style="margin-top:50px">
+	<h4>FIGYELMEZTETÉS</h4>
+<strong>
+          Ez nem egy hivatalos explorer. Az explorer fejlesztői nincsenek kapcsolatban a MIKRON csapatával, sem a MIKRON-nal, csupán az átláthatóság
+          kedvéért fejlesztettük ezt az oldalt. Az adatok közvetlen a MIKRON hálózatából érkeznek.
+          A <a href="https://microcoin.hu">MicroCoin</a> <a href="https://explorer.microcoin.hu/">explorer</a> bizonyos részeit felhasználtuk az oldal létrehozásához.
+          A MicroCoin és a MiKRON között sincs semmilyen kapcsolat, a MicroCoin fejlesztői és ezen oldal fejlesztői elhatárolódnak a MIKRON-tól és
+          nem támogatják azt. Az oldal használatáért és a MIKRON használatáért nem vállalunk felelősséget, csak saját felelősségre használhatóak.
+          Az explorer fejlesztésére egy munkaórát áldoztunk.<p>
+<h4>Nem találod a számládat?</h4> Ez akkor fordulhat elő, ha az egyenlege 0 és még nem történt vele tranzakció. Ebben az esetben a 
+számlád nem tárolódott a blokkláncban, azza csak virtuálisan létezik.</p>
+
+</strong></div>
+	<div class="alert alert-success" style="margin-top:20px">
+<h4>Valójában a MicroCoin-t kerested?</h4>
+	A <a href="https://explorer.microcoin.hu">MicroCoin Explorer itt</a> érhető el.
+          Amennyiben érdekel a MicroCoin SMS, vagy Callcenter alapú wallet, <a href="https://pethical.hu/microcoin/microcoin-tarca-sms-el-es-telefonhivassal/">kattints ide</a>!	  
+          A MicroCoin like gombjáról <a href="https://pethical.hu/microcoin/jutalmazd-a-kedvenc-tartalmad-microcoinnal/">itt olvashatsz</a>.
+          A többi fejlesztés a <a href="https://microcoin.hu">microcoin.hu</a> honlapon és a <a href="https://pethical.hu">pethical.hu</a> oldalon olvasható
+	</div>
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year</p>
+            <p>&copy; @DateTime.Now.Year - <a href="https://microcoin.hu">MicroCoin Developers</a></p>
         </footer>
     </div>
 
