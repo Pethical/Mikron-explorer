@@ -17,6 +17,15 @@ namespace MikronExplorerWeb.Controllers
         public IOrderedEnumerable<KeyValuePair<string, AccountInformationResponse>> data { get; set; }
     }
 
+    public class AccountInfo
+    {
+        public AccountInformationResponse account { get; set; }
+        public decimal sent { get; set; }
+        public decimal received { get; set; }
+        public IEnumerable<AccountHistoryItem> History { get; set; }
+    }
+
+
     public class HomeController : Controller
     {
 
@@ -34,7 +43,6 @@ namespace MikronExplorerWeb.Controllers
                     {
                         ls.Add(x.Account);
                         var xl = await Accounts(x.Account);
-                        // ls.AddRange(xl);
                     }
                 }
                 return ls;
@@ -70,8 +78,29 @@ namespace MikronExplorerWeb.Controllers
         {
             using (var client = new NanoRpcClient("http://localhost:7043"))
             {
-                AccountHistory h = await client.GetAccountHistoryAsync(new NanoAccount(address), 10000);                                
-                return View(h.History);
+                
+                decimal sent = 0;
+                decimal received = 0;
+                AccountHistory h = await client.GetAccountHistoryAsync(new NanoAccount(address.Trim()), 10000);
+                AccountInformationResponse account = await client.GetAccountInformationAsync(new NanoAccount(address.Trim()));
+                foreach(var a in h.History)
+                {
+                    if(a.Type == "send")
+                    {
+                        sent += (decimal)a.Amount.Raw / 10000000000M;
+                    }
+                    else
+                    {
+                        received += (decimal)a.Amount.Raw / 10000000000M;
+                    }
+                }
+                return View(new AccountInfo
+                {
+                    account = account,
+                    History = h.History,
+                    sent = sent,
+                    received = received
+                });
             }                
         }
 

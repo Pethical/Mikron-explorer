@@ -41,25 +41,28 @@
 <strong>
           Ez nem egy hivatalos explorer. Az explorer fejlesztői nincsenek kapcsolatban a MIKRON csapatával, sem a MIKRON-nal, csupán az átláthatóság
           kedvéért fejlesztettük ezt az oldalt. Az adatok közvetlen a MIKRON hálózatából érkeznek.
-          A <a href="https://microcoin.hu">MicroCoin</a> <a href="https://explorer.microcoin.hu/">explorer</a> bizonyos részeit felhasználtuk az oldal létrehozásához.
+         <!-- A <a href="https://microcoin.hu">MicroCoin</a> <a href="https://explorer.microcoin.hu/">explorer</a> bizonyos részeit felhasználtuk az oldal létrehozásához.
           A MicroCoin és a MiKRON között sincs semmilyen kapcsolat, a MicroCoin fejlesztői és ezen oldal fejlesztői elhatárolódnak a MIKRON-tól és
-          nem támogatják azt. Az oldal használatáért és a MIKRON használatáért nem vállalunk felelősséget, csak saját felelősségre használhatóak.
-          Az explorer fejlesztésére egy munkaórát áldoztunk.<p>
-<h4>Nem találod a számládat?</h4> Ez akkor fordulhat elő, ha az egyenlege 0 és még nem történt vele tranzakció. Ebben az esetben a 
-számlád nem tárolódott a blokkláncban, azza csak virtuálisan létezik.</p>
-
-</strong></div>
-	<div class="alert alert-success" style="margin-top:20px">
+          nem támogatják azt.--> Az oldal használatáért és a MIKRON használatáért nem vállalunk felelősséget, csak saját felelősségre használhatóak.
+          Az explorer fejlesztésére egy munkaórát áldoztunk, többre nem volt kapacitás, de reméljük hasznos így is!</strong>
+</div>
+<div class="alert alert-warning text-center" style="margin-top:15px">
+<p><h4>Nem találod a számládat?</h4><strong> Ez akkor fordulhat elő, ha az egyenlege 0 és még nem történt vele tranzakció. Ebben az esetben a 
+számlád nem tárolódott a blokkláncban, azaz csak virtuálisan létezik.</strong></p>
+<p>
+<h4>Nulla az egyenleged, pedig van coinod?</h4> <strong>Ez akkor fordulhat elő, ha honlapon tárolod a coinokat. Nézd meg a tranzakciókat, ott látni fogod hová került a coinod.</strong> </p>
+</div>
+	<!--div class="alert alert-success" style="margin-top:20px">
 <h4>Valójában a MicroCoin-t kerested?</h4>
 	A <a href="https://explorer.microcoin.hu">MicroCoin Explorer itt</a> érhető el.
           Amennyiben érdekel a MicroCoin SMS, vagy Callcenter alapú wallet, <a href="https://pethical.hu/microcoin/microcoin-tarca-sms-el-es-telefonhivassal/">kattints ide</a>!	  
           A MicroCoin like gombjáról <a href="https://pethical.hu/microcoin/jutalmazd-a-kedvenc-tartalmad-microcoinnal/">itt olvashatsz</a>.
           A többi fejlesztés a <a href="https://microcoin.hu">microcoin.hu</a> honlapon és a <a href="https://pethical.hu">pethical.hu</a> oldalon olvasható
-	</div>
+	</div-->
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - <a href="https://microcoin.hu">MicroCoin Developers</a></p>
+            <p>&copy; @DateTime.Now.Year</p>
         </footer>
     </div>
 

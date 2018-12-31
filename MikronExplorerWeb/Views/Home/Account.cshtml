@@ -2,7 +2,8 @@
 @using System.Numerics
 
 
-@model IEnumerable<AccountHistoryItem>
+@model MikronExplorerWeb.Controllers.AccountInfo
+
 @{
     ViewBag.Title = "Számlatörténet";
 }
@@ -13,37 +14,82 @@
     A @Request.Params["address"] számla története
 </h3>
 <div class="row">
-    <div class="col-md-12">
-<div class="table-responsive">
-        <table class="table table-responsive table-striped table-bordered table-hover table-condensed">
-            <thead>
-                <tr>
-                    <th>Számla</th>
-                    <th>Típus</th>
-                    <th>Összeg</th>
-                    <th>Hash</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var x in Model)
-                {
-                <tr>
-                    <td>
-                        @x.Account
-                    </td>
-                    <td>
-                        @x.Type
-                    </td>
-                    
-                    <td class="text-right">@String.Format("{0:n} MIKRON", (x.Amount.Raw / 10000000000))</td>
-                                        
-                    <td>
-                        @x.Hash
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-</div>
+    <div class="col-md-4 col-md-offset-4">
+        <div class="table-responsive">
+            <table class="table table-responsive table-bordered table-hover table-condensed">
+                <tbody>
+                    <tr>
+                        <th>Fogadott</th>
+                        <td class="text-right">@String.Format("{0:n4} MIKRON", Model.received)</td>
+                    </tr>
+                    <tr>
+                        <th>Küldött</th>
+                        <td class="text-right">@String.Format("{0:n4} MIKRON", Model.sent)</td>
+                    </tr>
+                    <tr>
+                        <th>Egyenleg</th>
+                        <td class="text-right">
+                            @String.Format("{0:n4} MIKRON", ((decimal)Model.account.Balance.Raw) / 10000000000M)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-responsive table-striped table-bordered table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>Számla</th>
+                        <th>Típus</th>
+                        <th>Összeg</th>
+                        <th>Hash</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.History)
+                    {
+                        <tr class="@if (x.Type == "receive")
+                        {
+                            @:text-success
+                        }
+                        else
+                        {
+                            @:text-danger
+                        }"><td>
+                                <a class="mono" href="@Url.Action("Account", "Home", new { address = x.Account })">
+                                    @x.Account
+                                </a>
+                            </td>
+                            <td>
+                                @if (x.Type == "receive")
+                                {
+                                    @:Fogadás
+                                }
+                                else
+                                {
+                                    @:Küldés
+                                }
+                            </td>
+                            <td class="text-right">
+                                @String.Format("{0:n4} MIK", ((decimal)x.Amount.Raw) / 10000000000M)
+                            </td>
+
+                            <td style="font-size:0.8em;vertical-align:middle;font-family:monospace">
+                                @x.Hash
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .mono {
+        font-family: monospace;
+    }
+</style>
