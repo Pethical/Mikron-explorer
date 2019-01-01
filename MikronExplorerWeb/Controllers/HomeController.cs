@@ -83,6 +83,7 @@ namespace MikronExplorerWeb.Controllers
                 decimal received = 0;
                 AccountHistory h = await client.GetAccountHistoryAsync(new NanoAccount(address.Trim()), 10000);
                 AccountInformationResponse account = await client.GetAccountInformationAsync(new NanoAccount(address.Trim()));
+                if(h.History!=null)
                 foreach(var a in h.History)
                 {
                     if(a.Type == "send")

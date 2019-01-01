@@ -32,6 +32,41 @@
                             @String.Format("{0:n4} MIKRON", ((decimal)Model.account.Balance.Raw) / 10000000000M)
                         </td>
                     </tr>
+<tr>
+<th>Tulajdonos</th>
+<td class="text-right">
+	@if(Request.Params["address"]=="mik_15zjgj59fft6a11z8cu9u91q81s3pgr86914wy6qghh1b4kqf8j6u94isi7i"){
+		@:kriptoakademia.com
+	}
+	else if(Request.Params["address"]=="mik_1yumkjq6xscowmmz6sca79sycoup1tpqabnc3zdqgpcd1756xgo1k53z7yeg"){
+		@:Mikron Team
+	}
+	else if(Request.Params["address"]=="mik_1j8ohjjtg8nnbhse7crb8wu1yak79bc5cyna9mfwa4zkose7134ejb9b7sxj"){
+		@:Mikron Team
+	}
+	else if(Request.Params["address"]=="mik_1eoc5ad6mog5si9e86ps1wrsxnt97ndqzhf4m4nxfb1geejpxks6rsuedxum"){
+		@:hatharom.com
+	}
+	else if(Request.Params["address"]=="mik_3p1g7cpuyrz4crbeonm568k1amuc559hegpdgcsnyjhwhbspaogh7gny87t6"){
+		@:pokerakademia.com
+	}
+	else if(Request.Params["address"]=="mik_3hkskhw6oyeztptbofy5iprqaffcc5iwbzzuamrerum744zfxbpdwe1y9ngt"){
+		@:mikron.io
+	}
+	else if(Request.Params["address"]=="mik_1chwy8mwkzrhoumrcofm8e794i3jma7dm56k9wzikzijbq5rhx6d4soknzh3") {
+		@:pokerakademia.com(???)
+	}
+	else if(Request.Params["address"]=="mik_3ezdquxxm6sdmt6ydqzfn8kee9tyoard5s4nunztejcxu9xahhtrjfdbh8zc"){
+		@:kriptoakademia.com(???)
+	}	
+	else if(Request.Params["address"]=="mik_1mdp38q19dht3wpw7gxrfqn4aqs3876txoic79gms7y55a3biwuo3z5yons6"){
+		@:mikron.io(???)
+	} else {
+		@:Nem ismert
+	}
+
+</td>
+</tr>
                 </tbody>
             </table>
         </div>
@@ -43,14 +78,16 @@
             <table class="table table-responsive table-striped table-bordered table-hover table-condensed">
                 <thead>
                     <tr>
-                        <th>Számla</th>
+                        <th>Cél/forrás</th>
                         <th>Típus</th>
                         <th>Összeg</th>
                         <th>Hash</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var x in Model.History)
+                    @if (Model.History != null)
+                    {
+                    foreach (var x in Model.History)
                     {
                         <tr class="@if (x.Type == "receive")
                         {
@@ -62,9 +99,38 @@
                         }"><td>
                                 <a class="mono" href="@Url.Action("Account", "Home", new { address = x.Account })">
                                     @x.Account
+	@if (x.Account == "mik_15zjgj59fft6a11z8cu9u91q81s3pgr86914wy6qghh1b4kqf8j6u94isi7i")
+    {
+		@:(kriptoakademia.com)
+	}
+    else
+    {
+
+    }
+	@if (x.Account == "mik_1yumkjq6xscowmmz6sca79sycoup1tpqabnc3zdqgpcd1756xgo1k53z7yeg")
+    {
+		@:(Mikron Team)
+	}
+	@if (x.Account == "mik_1j8ohjjtg8nnbhse7crb8wu1yak79bc5cyna9mfwa4zkose7134ejb9b7sxj")
+    {
+		@:(Mikron Team)
+	}
+	@if (x.Account == "mik_1eoc5ad6mog5si9e86ps1wrsxnt97ndqzhf4m4nxfb1geejpxks6rsuedxum")
+    {
+		@:(hatharom.com)
+	}
+	@if (x.Account == "mik_3p1g7cpuyrz4crbeonm568k1amuc559hegpdgcsnyjhwhbspaogh7gny87t6")
+    {
+		@:(pokerakademia.com)
+	}
+	@if (x.Account == "mik_3hkskhw6oyeztptbofy5iprqaffcc5iwbzzuamrerum744zfxbpdwe1y9ngt")
+    {
+		@:(mikron.io)
+	}
+
                                 </a>
                             </td>
-                            <td>
+                            <td style="vertical-align:middle">
                                 @if (x.Type == "receive")
                                 {
                                     @:Fogadás
@@ -74,13 +140,20 @@
                                     @:Küldés
                                 }
                             </td>
-                            <td class="text-right">
+                            <td class="text-right" style="vertical-align:middle">
                                 @String.Format("{0:n4} MIK", ((decimal)x.Amount.Raw) / 10000000000M)
                             </td>
 
                             <td style="font-size:0.8em;vertical-align:middle;font-family:monospace">
                                 @x.Hash
                             </td>
+                        </tr>
+                    }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="bg-danger text-center text-danger" colspan="4" style="font-weight:bold"><strong>NINCS HISTORY A BLOKKLÁNCBAN!!!!!!</strong></td>
                         </tr>
                     }
                 </tbody>
