@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Http;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace MikronExplorerWeb.Controllers
 {
@@ -15,6 +18,7 @@ namespace MikronExplorerWeb.Controllers
     {
         public BigInteger all { get; set; }
         public IOrderedEnumerable<KeyValuePair<string, AccountInformationResponse>> data { get; set; }
+        public Dictionary<string, string> ips { get; internal set; }
     }
 
     public class AccountInfo
@@ -34,7 +38,6 @@ namespace MikronExplorerWeb.Controllers
         {
             using (var client = new NanoRpcClient("http://localhost:7043"))
             {
-
                 var h = await client.GetAccountHistoryAsync(new NanoAccount(acc), 100000);
                 if (h.History == null) return ls;
                 foreach (var x in h.History)
@@ -54,6 +57,39 @@ namespace MikronExplorerWeb.Controllers
             using (var client = new NanoRpcClient("http://localhost:7043"))
             {
 
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:7043");
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = "{\"action\":\"peers\"}";
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                var IPs = new Dictionary<string, string>();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {                    
+                    var result = streamReader.ReadToEnd();
+                    try
+                    {
+                        JObject jo = JObject.Parse(result);
+                        var ja = (JArray)jo["peers"];
+                        foreach (var a in ja)
+                        {
+                            var end = (string)a["endpoint"];
+                            var p = end.Replace("[", "").Replace("]", "").Replace("::ffff:", "");                            
+                            var addr = IPAddress.Parse(p.Split(':')[0]);
+                            IPs.Add((string)a["node_id"], addr.ToString());
+                        }
+                    }
+                    catch { }
+                }
+
                 var h = await client.GetAccountHistoryAsync(new NanoAccount("mik_1yumkjq6xscowmmz6sca79sycoup1tpqabnc3zdqgpcd1756xgo1k53z7yeg"), 10000);
                 foreach (var x in h.History)
                 {
@@ -65,12 +101,12 @@ namespace MikronExplorerWeb.Controllers
                 {
                     if (ir.ContainsKey(a)) continue;
                     var ai = await client.GetAccountInformationAsync(new NanoAccount(a));
-                    ir.Add(a, ai);
-                    all += ai.Balance.Raw;
+                    ir.Add(a, ai);                    
+                    all += ai.Balance.Raw;                    
                 }
                 IOrderedEnumerable<KeyValuePair<string, AccountInformationResponse>> or = ir.OrderByDescending(p => p.Value.Balance.Raw);
-
-                return View(new Data{ data = or, all = all });
+                
+                return View(new Data{ data = or, all = all, ips = IPs });
             }
         }
 

@@ -22,7 +22,7 @@
                         <tr>
                             <td>#</td>
                             <th>Cím</th>
-                            <th>Tulajdonos</th>
+                            <th class="text-center">Tulajdonos / IP</th>
                             <th class="text-right">Egyenleg</th>
                             <th class="text-right">Hány százalékot tulajdonol</th>
                         </tr>
@@ -30,46 +30,97 @@
                     <tbody>
                         @foreach (var x in Model.data)
                         {
-                            <tr>
-                                <td class="text-center">@counter.</td>
-                                <td><a class="mono" href="@Url.Action("Account", "Home", new { address = x.Key })">@x.Key</a></td>
-<td>
-	@if(x.Key=="mik_15zjgj59fft6a11z8cu9u91q81s3pgr86914wy6qghh1b4kqf8j6u94isi7i"){
-		@:kriptoakademia.com
-	}else{
+                            <tr
+                            @if (((decimal)x.Value.Balance.Raw) / 10000000000M >= 1000)
+                            {
+                                //   @:style="font-style: italic"
+                            }
+                            else
+                            {
 
-	}
-	@if(x.Key=="mik_1yumkjq6xscowmmz6sca79sycoup1tpqabnc3zdqgpcd1756xgo1k53z7yeg"){
-		@:Mikron Team
-	}
-	@if(x.Key=="mik_1j8ohjjtg8nnbhse7crb8wu1yak79bc5cyna9mfwa4zkose7134ejb9b7sxj"){
-		@:Mikron Team
-	}
-	@if(x.Key=="mik_1eoc5ad6mog5si9e86ps1wrsxnt97ndqzhf4m4nxfb1geejpxks6rsuedxum"){
-		@:hatharom.com
-	}
-	@if(x.Key=="mik_3p1g7cpuyrz4crbeonm568k1amuc559hegpdgcsnyjhwhbspaogh7gny87t6"){
-		@:pokerakademia.com
-	}
-	@if(x.Key=="mik_3hkskhw6oyeztptbofy5iprqaffcc5iwbzzuamrerum744zfxbpdwe1y9ngt"){
-		@:mikron.io
-	}
-	@if(x.Key=="mik_1chwy8mwkzrhoumrcofm8e794i3jma7dm56k9wzikzijbq5rhx6d4soknzh3"){
-		@:pokerakademia.com(???)
-	}
-	@if(x.Key=="mik_3ezdquxxm6sdmt6ydqzfn8kee9tyoard5s4nunztejcxu9xahhtrjfdbh8zc"){
-		@:kriptoakademia.com(???)
-	}	
-	@if(x.Key=="mik_1mdp38q19dht3wpw7gxrfqn4aqs3876txoic79gms7y55a3biwuo3z5yons6"){
-		@:mikron.io(???)
-	}	
+                            }
+                            @if (Model.ips.ContainsKey(x.Key))
+                            {
+                                @:class="danger"
+                            }
+                            >
+                            <td class="text-center">@counter.</td>
+                            <td><a class="mono" href="@Url.Action("Account", "Home", new { address = x.Key })">@x.Key</a></td>
+                            <td class="text-center">
+                                @if (x.Key == "mik_15zjgj59fft6a11z8cu9u91q81s3pgr86914wy6qghh1b4kqf8j6u94isi7i")
+                                {
+                                    @:kriptoakademia.com
+                                }
+                                else
+                                {
 
+                                }
+                                @if (x.Key == "mik_1yumkjq6xscowmmz6sca79sycoup1tpqabnc3zdqgpcd1756xgo1k53z7yeg")
+                                {
+                                    @:Mikron Team
+                                }
+                                @if (x.Key == "mik_1j8ohjjtg8nnbhse7crb8wu1yak79bc5cyna9mfwa4zkose7134ejb9b7sxj")
+                                {
+                                    @:Mikron Team
+                                }
+                                @if (x.Key == "mik_1mefbtc87z9ti53idswudw8eurj3epwdnhjhamj8mn7o439ft9nay1cw1iqx")
+                                {
+                                    @:Mikron Team Reward pool
+                                }
+                                @if (x.Key == "mik_1eoc5ad6mog5si9e86ps1wrsxnt97ndqzhf4m4nxfb1geejpxks6rsuedxum")
+                                {
+                                    @:hatharom.com
+                                }
+                                @if (x.Key == "mik_3p1g7cpuyrz4crbeonm568k1amuc559hegpdgcsnyjhwhbspaogh7gny87t6")
+                                {
+                                    @:pokerakademia.com
+                                }
+                                @if (x.Key == "mik_3hkskhw6oyeztptbofy5iprqaffcc5iwbzzuamrerum744zfxbpdwe1y9ngt")
+                                {
+                                    @:mikron.io
+                                }
+                                @if (x.Key == "mik_1chwy8mwkzrhoumrcofm8e794i3jma7dm56k9wzikzijbq5rhx6d4soknzh3")
+                                {
+                                    @:pokerakademia.com(???)
+                                }
+                                @if (x.Key == "mik_3ezdquxxm6sdmt6ydqzfn8kee9tyoard5s4nunztejcxu9xahhtrjfdbh8zc")
+                                {
+                                    @:kriptoakademia.com(???)
+                                }
+                                @if (x.Key == "mik_1mdp38q19dht3wpw7gxrfqn4aqs3876txoic79gms7y55a3biwuo3z5yons6")
+                                {
+                                    @:mikron.io(???)
+                                }
 
-</td>
-                                <td class="text-right">@String.Format("{0:n4} MIKRON", (((decimal)x.Value.Balance.Raw) / 10000000000M))</td>
-                                <td class="text-right">@(Math.Round(((((decimal)x.Value.Balance.Raw) * 100M) / ((decimal)Model.all)), 5).ToString("F5")) %</td>
-                            </tr>
-                           counter++;
+                                @{
+                                    string[] accs = {
+                                        "mik_3wcwiegw9s93w6aecp1qe7jusmi1pk1hhcd13qx1tjbds3oc7xxgsdr5iwbc",
+                                        "mik_1ne6czem49fkys8b3ugx1pjnzn66aiu1zm9ye5s9fcj4frfcx3z39gsrnbo4",
+                                        "mik_3pxwnk3ck361gksa6z8etx1bwgetg3mh3g7be8sn4crp371p7r394reaznxp",
+                                        "mik_1bfqfue6rdiipuk6p7doir8xhzpr8ip1ebnej6cib8n1ars1sriu3ch7bg5e",
+                                        "mik_1x94oc6khmehmngw8bkh4pbi1x6wu6juybznxk9o6kij1pkgre9ri7fmffsi",
+                                        "mik_1rxpxdg3wuxyz6is8q9bf8jcgb5hra78xbsznks19tj1sf18i7bdg73fxiu9",
+                                        "mik_3gqbfk6ry7dugahhjmerub5iraj8piswfgb5dcp4ore1jodfaqbsxqa3esgy",
+                                        "mik_3po13r7nx6p9drqmtc9nguoeftnyfbyuxi3bbirrxpyedagmiypb89a3f4do",
+                                        "mik_3hywmos8w56mbfw9qpryc6q9rn7kfo8txkeujpxnczfwfw87umhhmtx8emb9",
+                                        "mik_3jzxw9p9zxoyxh33rugrgx7nq6pshbfec5k8iwm748uf98ai85ms58ymwkzd"                                                                               
+                                     };
+                                }
+                                @if (accs.Contains(x.Key))
+                                {
+                                    @:Mikron Team
+                                }
+
+                                @if (Model.ips.ContainsKey(x.Key))
+                                {
+                                    <a target="_blank" href=@("https://www.infobyip.com/ip-" + Model.ips[x.Key] + ".html")>@Model.ips[x.Key]</a>
+                                }
+
+                            </td>
+                            <td class="text-right">@String.Format("{0:n4} MIKRON", (((decimal)x.Value.Balance.Raw) / 10000000000M))</td>
+                            <td class="text-right">@(Math.Round(((((decimal)x.Value.Balance.Raw) * 100M) / ((decimal)Model.all)), 5).ToString("F5")) %</td>
+                        </tr>
+                        counter++;
                         }
                     </tbody>
                 </table></div>
